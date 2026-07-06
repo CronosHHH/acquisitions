@@ -1,0 +1,8 @@
+{
+    "chat.tools.terminal.autoApprove": {
+        "/^cat <<'EOF' \\| node --input-type=module\nimport 'dotenv/config';\nimport \\{ neon \\} from '@neondatabase/serverless';\nconst sql = neon\\(process\\.env\\.DATABASE_URL\\);\nconst rows = await sql`select \\* from users where email = \\$\\{'renatoramirezvida@gmail\\.com'\\} limit \\$\\{1\\}`;\nconsole\\.log\\(rows\\);\nEOF$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
+    }
+}

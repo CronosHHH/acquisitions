@@ -27,18 +27,67 @@ npm init -y
 ```bash
 npm install express dotenv
 ```
-// express es un framework para crear aplicaciones web y APIs en Node.js
-// dotenv es un paquete que permite cargar variables de entorno desde un archivo .env
+---
+- ## Express
+
+Express es un framework ligero para crear aplicaciones web y APIs en Node.js. Nos da una base simple para definir rutas, middlewares y respuestas sin tener que construir todo desde cero.
+
+Comandos básicos:
+
+```bash
+npm install express
+npm run dev
+node --watch src/index.js
+```
+
+¿Por qué usamos Express y no otro?
+
+- Es simple y rápido para arrancar.
+- Tiene una comunidad enorme y mucha documentación.
+- Funciona muy bien para APIs pequeñas y medianas.
+- Su estructura es clara y no te obliga a seguir una arquitectura pesada.
+
+---
+- ## dotenv
+
+dotenv es un paquete que carga variables de entorno desde un archivo .env. Así evitamos poner secretos o configuraciones sensibles directamente en el código.
+
+Comandos básicos:
+
+```bash
+npm install dotenv
+```
+
+Uso típico:
+
+```js
+import 'dotenv/config';
+```
+
+¿Por qué lo usamos?
+
+- Separa la configuración del código.
+- Facilita trabajar con distintos entornos: desarrollo, pruebas y producción.
+- Ayuda a mantener credenciales y claves fuera del repositorio.
+
+--- 
 
 creo el `.gitignore` para ignorar `node_modules` y otros archivos innecesarios
 
 En el [package.json](package.json)
 
-- se cambia `"type": "module"` // poder usar `import`/`export` en lugar de `require`/`module.exports`
+- se cambia `"type": "module"` 
+
+  - `type` define cómo Node.js interpreta los archivos JavaScript del proyecto. Le dice al runtime si debe tratar el código como módulos modernos o como módulos más clásicos.
+
+  - Usamos `module` porque nos deja trabajar con `import` y `export`, que es la sintaxis actual y más limpia para organizar el código. Además, encaja mejor con proyectos modernos y con librerías recientes.
+
+  - La otra alternativa más usada es `commonjs`. En ese modo se trabaja con `require` y `module.exports`, que fue el estándar durante mucho tiempo en Node.js y todavía aparece en muchos proyectos antiguos.
 
 - se cambia el script `"test": "node index.js"` por `"dev": "node --watch index.js"`
 
-  - para poder correr el servidor en modo desarrollo y que se reinicie automaticamente cuando se hagan cambios en el codigo
+  - porque por ahora no tenemos ningun script de tests, y queremos un script para correr el servidor en modo desarrollo.
+  
   - el comando `--watch` es para que el servidor se reinicie automaticamente cuando se hagan cambios en el codigo
 
  
