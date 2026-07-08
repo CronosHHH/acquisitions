@@ -1,2 +1,5 @@
 node_modules/
 .env.*
+
+# Neon Local branch metadata (created by docker-compose.dev.yml)
+.neon_local/

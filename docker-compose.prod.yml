@@ -1,0 +1,30 @@
+# Production compose file.
+#
+# No Neon Local proxy here - the app connects directly to your Neon Cloud
+# database over the serverless driver (WebSockets), using DATABASE_URL
+# supplied via environment/secrets. Intended for use as a reference/for
+# self-hosted deployments; on most PaaS/orchestrators you'd instead build
+# the "production" image and inject env vars via that platform's secret
+# management instead of an env_file.
+#
+# Usage:
+#   docker compose -f docker-compose.prod.yml --env-file .env.production up --build -d
+services:
+  app:
+    build:
+      context: .
+      target: production
+    image: acquisitions-app:prod
+    restart: unless-stopped
+    ports:
+      - '${PORT:-3000}:3000'
+    env_file:
+      - .env.production
+    environment:
+      - NODE_ENV=production
+    networks:
+      - acquisitions-network
+
+networks:
+  acquisitions-network:
+    driver: bridge

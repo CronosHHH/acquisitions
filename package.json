@@ -7,21 +7,24 @@
     "#config/*": "./src/config/*",
     "#models/*": "./src/models/*",
     "#controllers/*": "./src/controllers/*",
-    "#middlewares/*": "./src/middlewares/*",
+    "#middlewares/*": "./src/middleware/*",
     "#services/*": "./src/services/*",
     "#utils/*": "./src/utils/*",
     "#routes/*": "./src/routes/*",
     "#validations/*": "./src/validations/*"
   },
   "scripts": {
+
     "dev": "npx eslint . && node --watch src/index.js",
+    "start": "node --watch src/index.js",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "db:studio": "drizzle-kit studio"
+    "db:studio": "drizzle-kit studio",
+    "dev:docker": "sh ./scripts/dev.sh"
   },
   "repository": {
     "type": "git",
@@ -36,6 +39,8 @@
   },
   "homepage": "https://github.com/CronosHHH/acquisitions#readme",
   "dependencies": {
+    "@arcjet/inspect": "^1.7.0",
+    "@arcjet/node": "^1.7.0",
     "@neondatabase/serverless": "^1.1.0",
     "bcrypt": "^6.0.0",
     "cookie-parser": "^1.4.7",
@@ -47,6 +52,7 @@
     "jsonwebtoken": "^9.0.3",
     "morgan": "^1.11.0",
     "winston": "^3.19.0",
+    "ws": "^8.18.0",
     "zod": "^4.4.3"
   },
   "devDependencies": {

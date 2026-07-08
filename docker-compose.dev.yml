@@ -1,0 +1,53 @@
+# Development compose file.
+#
+# Runs the app alongside the Neon Local proxy. Neon Local creates a fresh
+# ephemeral branch off NEON_PARENT_BRANCH_ID (or your project's default
+# branch) when the container starts, and deletes it when the container
+# stops - so every `docker compose up` gives you a clean database.
+#
+# Usage:
+#   docker compose -f docker-compose.dev.yml --env-file .env.development up --build
+services:
+  app:
+    build:
+      context: .
+      target: development
+    image: acquisitions-app:dev
+    ports:
+      - '${PORT:-3000}:3000'
+    env_file:
+      - .env.development
+    environment:
+      - NODE_ENV=development
+    volumes:
+      # Mount source for hot-reload with `node --watch`, but keep
+      # node_modules from the image (avoids host/container arch mismatches).
+      - ./src:/app/src
+      - ./drizzle.config.js:/app/drizzle.config.js
+      - /app/node_modules
+    depends_on:
+      neon-local:
+        condition: service_started
+    networks:
+      - acquisitions-network
+
+  neon-local:
+    image: neondatabase/neon_local:latest
+    ports:
+      - '5432:5432'
+    environment:
+      NEON_API_KEY: ${NEON_API_KEY}
+      NEON_PROJECT_ID: ${NEON_PROJECT_ID}
+      PARENT_BRANCH_ID: ${NEON_PARENT_BRANCH_ID:-}
+      DELETE_BRANCH: 'true'
+    volumes:
+      # Enables the "persistent branch per git branch" feature; safe to
+      # keep even when DELETE_BRANCH=true.
+      - ./.neon_local/:/tmp/.neon_local
+      - ./.git/HEAD:/tmp/.git/HEAD:ro,consistent
+    networks:
+      - acquisitions-network
+
+networks:
+  acquisitions-network:
+    driver: bridge
